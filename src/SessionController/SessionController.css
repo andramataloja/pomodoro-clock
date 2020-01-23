@@ -1,0 +1,35 @@
+.setting,
+.setting-btn.btn-outline-primary {
+  color: rgb(99, 96, 96);
+  font-size: 20px;
+}
+.time {
+  color: #2ad0d6;
+}
+.setting-btn {
+  margin: 10px;
+}
+.buttonController {
+  font-size: 24px;
+  margin-right: 25px;
+  margin-left: 25px;
+}
+.btn-outline-primary {
+  border: none;
+  background: none;
+  box-shadow: none;
+  outline: none;
+  font-size: 26px;
+}
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+.show > .btn-outline-primary.dropdown-toggle,
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  border: none;
+  background: none;
+  color: rgb(99, 96, 96);
+  box-shadow: none;
+  outline: none;
+}

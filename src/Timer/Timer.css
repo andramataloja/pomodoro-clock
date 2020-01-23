@@ -1,0 +1,11 @@
+.timer {
+  text-align: center;
+}
+.cycle {
+  font-size: 28px;
+  color: rgb(99, 96, 96);
+}
+.countDown {
+  font-size: 50px;
+  color: #2ad0d6;
+}
