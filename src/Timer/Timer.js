@@ -4,16 +4,14 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "./Timer.css";
 
-const timeFormat = timeLeftInSecond => {
-  let min = Math.floor(timeLeftInSecond / 60);
-  let sec = timeLeftInSecond - min * 60;
-  min = min < 10 ? "0" + min : min;
-  sec = sec < 10 ? "0" + sec : sec;
-
-  return `${min}:${sec}`;
-};
-
 function Timer(props) {
+  const timeFormat = () => {
+    let min = Math.floor(props.timeLeftInSecond / 60);
+    let sec = props.timeLeftInSecond - min * 60;
+    sec = sec < 10 ? "0" + sec : sec;
+    min = min < 10 ? "0" + min : min;
+    return min + ":" + sec;
+  };
   return (
     <div className="timer my-2">
       <div style={{ position: "absolute" }}>
@@ -39,10 +37,12 @@ function Timer(props) {
           }
           strokeWidth={6}
         >
-          <div className="cycle">{props.cycle}</div>
-          <div className="countDown">{`${timeFormat(
-            props.timeLeftInSecond
-          )}`}</div>
+          <div id="timer-label" className="cycle">
+            {props.cycle}
+          </div>
+          <div id="time-left" className="countDown">
+            {timeFormat()}
+          </div>
         </CircularProgressbarWithChildren>
       </div>
     </div>

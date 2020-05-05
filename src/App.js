@@ -5,10 +5,7 @@ import ControllerSettings from "./ControllerSettings/ControllerSettings";
 import bell from "./Servant-bell-sound.mp3";
 import "./App.css";
 
-let defaultSessionTime = "25";
-let defaultBreakTime = "5";
-
-const valBetween = v => {
+const valBetween = (v) => {
   return Math.min(Math.max(parseInt(v), 1), 60);
 };
 
@@ -16,15 +13,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sessionTime: Number.parseInt(defaultSessionTime, 10),
-      breakTime: Number.parseInt(defaultBreakTime, 10),
-      timeLeftInSecond: Number.parseInt(defaultSessionTime, 10) * 60,
+      sessionTime: 25,
+      breakTime: 5,
+      timeLeftInSecond: 25 * 60,
       cycle: "Session",
       timerRunning: false,
       timerId: null,
-      currentProgressBar: 0
+      currentProgressBar: 0,
     };
-    this.audioSound = React.createRef();
 
     this.tick = this.tick.bind(this);
     this.startStopTimer = this.startStopTimer.bind(this);
@@ -43,14 +39,14 @@ class App extends React.Component {
         timerId: setInterval(() => {
           this.tick();
           this.cycleControl();
-        }, 1000)
+        }, 1000),
       });
     } else {
-      this.audioSound.current.pause();
+      this.audio.pause();
       clearInterval(this.state.timerId);
       this.setState({
         timerRunning: !this.state.timerRunning,
-        timerId: null
+        timerId: null,
       });
     }
   }
@@ -58,24 +54,26 @@ class App extends React.Component {
   tick() {
     this.setState({
       timeLeftInSecond: this.state.timeLeftInSecond - 1,
-      currentProgressBar: this.state.currentProgressBar + 1
+      currentProgressBar: this.state.currentProgressBar + 1,
     });
   }
 
   cycleControl() {
     if (this.state.timeLeftInSecond === 0) {
-      this.audioSound.current.play();
+      this.audio.play();
+    }
+    if (this.state.timeLeftInSecond < 0) {
       if (this.state.cycle === "Session") {
         this.setState({
           cycle: "Break",
           timeLeftInSecond: this.state.breakTime * 60,
-          currentProgressBar: 0
+          currentProgressBar: 0,
         });
       } else {
         this.setState({
           cycle: "Session",
           timeLeftInSecond: this.state.sessionTime * 60,
-          currentProgressBar: 0
+          currentProgressBar: 0,
         });
       }
     }
@@ -84,16 +82,16 @@ class App extends React.Component {
   resetTimer() {
     this.setState({
       timerRunning: false,
-      sessionTime: Number.parseInt(defaultSessionTime, 10),
-      breakTime: Number.parseInt(defaultBreakTime, 10),
-      timeLeftInSecond: Number.parseInt(defaultSessionTime, 10) * 60,
+      sessionTime: 25,
+      breakTime: 5,
+      timeLeftInSecond: 25 * 60,
       timerId: null,
       cycle: "Session",
-      currentProgressBar: 0
+      currentProgressBar: 0,
     });
-    this.audioSound.current.pause();
+    this.audio.pause();
+    this.audio.currentTime = 0;
     clearInterval(this.state.timerId);
-    console.log("Reset");
   }
 
   incrementSessionTime() {
@@ -101,7 +99,7 @@ class App extends React.Component {
       this.setState({
         sessionTime: valBetween(this.state.sessionTime + 1),
         timeLeftInSecond: valBetween(this.state.sessionTime + 1) * 60,
-        currentProgressBar: 0
+        currentProgressBar: 0,
       });
     }
   }
@@ -111,7 +109,7 @@ class App extends React.Component {
       this.setState({
         sessionTime: valBetween(this.state.sessionTime - 1),
         timeLeftInSecond: valBetween(this.state.sessionTime - 1) * 60,
-        currentProgressBar: 0
+        currentProgressBar: 0,
       });
     }
   }
@@ -120,7 +118,7 @@ class App extends React.Component {
     if (!this.state.timerRunning) {
       this.setState({
         breakTime: valBetween(this.state.breakTime + 1),
-        currentProgressBar: 0
+        currentProgressBar: 0,
       });
     }
   }
@@ -129,7 +127,7 @@ class App extends React.Component {
     if (!this.state.timerRunning) {
       this.setState({
         breakTime: valBetween(this.state.breakTime - 1),
-        currentProgressBar: 0
+        currentProgressBar: 0,
       });
     }
   }
@@ -159,10 +157,12 @@ class App extends React.Component {
           timerRunning={this.state.timerRunning}
         />
         <audio
-          id="bell"
+          id="beep"
           preload="auto"
           src={bell}
-          ref={this.audioSound}
+          ref={(audio) => {
+            this.audio = audio;
+          }}
         ></audio>
       </div>
     );

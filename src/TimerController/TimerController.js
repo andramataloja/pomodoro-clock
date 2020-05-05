@@ -6,6 +6,7 @@ class TimerController extends React.Component {
     return (
       <div>
         <button
+          id="start_stop"
           type="button"
           className="btn btn-primary mr-2 mt-2"
           onClick={this.props.startStopTimer}
@@ -13,6 +14,7 @@ class TimerController extends React.Component {
           {this.props.timerRunning ? "Stop" : "Start"}
         </button>
         <button
+          id="reset"
           type="button"
           className="btn btn-primary ml-2 mt-2"
           onClick={this.props.resetTimer}
